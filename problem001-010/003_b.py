@@ -1,29 +1,31 @@
-def is_same(s, t):
+from typing import List
+
+REPLACEMENT_CHARS = set("atcoder")
+
+def isreplace(s: str, t: str) -> bool:
+    return (s == "@" and t in REPLACEMENT_CHARS) or (t == "@" and s in REPLACEMENT_CHARS)
+
+def can_win(s: str, t: str) -> bool:
     if len(s) != len(t):
         return False
-    
-    for i in range(len(s)):
-        if s[i] == t[i]:
-            continue
-        elif s[i] == "@" and t[i] in "atcoder":
-            continue
-        elif t[i] == "@" and s[i] in "atcoder":
-            continue
-        elif s[i] != t[i]:
-            return False
-        
-    return True
 
+    for sc, tc in zip(s, t):
+        if sc == tc:
+            continue
+        if isreplace(sc, tc):
+            continue
+        return False
+    
+    return True
 
 def main():
     s = input()
     t = input()
 
-    if is_same(s, t):
+    if can_win(s, t):
         print("You can win")
     else:
         print("You will lose")
-
 
 if __name__ == "__main__":
     main()
